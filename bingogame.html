@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ビンゴゲーム</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: skyblue;
+        }
+        #bingo-number {
+            font-size: 100px;
+            margin-top: 30px;
+        }
+        #bingo-list {
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+    <h2>ビンゴゲーム</h2>
+    <button id="draw-button">数字を引く</button>
+    <div id="bingo-number"></div>
+    <div id="bingo-list"></div>
+
+    <script>
+        const bingoNumbers = Array.from({length: 75}, (v, i) => i + 1);
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        const shuffledNumbers = shuffle(bingoNumbers);
+        let drawnNumbers = [];
+
+        document.getElementById('draw-button').addEventListener('click', function() {
+            if (shuffledNumbers.length > 0) {
+                const nextNumber = shuffledNumbers.pop();
+                drawnNumbers.push(nextNumber);
+                document.getElementById('bingo-number').innerText = nextNumber;
+                document.getElementById('bingo-list').innerText = `引いた数字: ${drawnNumbers.join(', ')}`;
+            } else {
+                document.getElementById('bingo-number').innerText = "ビンゴ終了!";
+                document.getElementById('draw-button').disabled = true;
+            }
+        });
+    </script>
+</body>
+</html>
